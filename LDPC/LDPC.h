@@ -4,7 +4,7 @@
 #include <stdint.h>
 #include "matrix.h"
 
-#define ALPHA 0.75
+#define ALPHA 0.75f
 
 #define MAX_LIFTING_SIZE 32
 

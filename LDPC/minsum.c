@@ -21,14 +21,14 @@ static void min2 (float * arr, uint8_t size, float * v1, float * v2, uint8_t * i
     *v2 = FLT_MAX;
 
     for (int i = 0; i < size; i++) {
-        if (fabs(arr[i])< *v1) {
+        if (fabsf(arr[i])< *v1) {
             *v2 = *v1;
             *i2 = *i1;
-            *v1 = fabs(arr[i]);
+            *v1 = fabsf(arr[i]);
             *i1 = i;
         }
         else if (fabs(arr[i])< *v2) {
-            *v2 = fabs(arr[i]);
+            *v2 = fabsf(arr[i]);
             *i2 = i;
         }
     }
@@ -43,14 +43,14 @@ void layered_normalized_minsum (float * Lq, uint16_t len, quasi_cyclic_matrix_t 
 		  temp_arr_2[k] = H->base_graph[H->rowOffset[m]+k];
 		}
     	for (int j = 0; j < H->lifting_size; j++) {
-            float Lq_mj [MAX_ROW_WEIGHT] = {0};
+            float Lq_mj [MAX_ROW_WEIGHT];
             for (int i = 0; i < H->rowWeight[m]; i++) {
                 //Lq_mj[i] = Lq[H->lifting_size*H->columnIndexMap[H->rowOffset[m]+i]+(H->base_graph[H->rowOffset[m]+i]+j)%H->lifting_size] - R_mj[H->rowOffset[m]+i].element[j];
                 Lq_mj[i] = Lq[temp_arr[i]+((temp_arr_2[i]+j)%H->lifting_size)] - R_mj[H->rowOffset[m]+i].element[j];
             }
 
             float f1, f2;
-            uint8_t i1, i2;
+            uint8_t i1 = 0, i2 = 0;
             min2 (Lq_mj, H->rowWeight[m], &f1, &f2, &i1, &i2);
 
             if (f1 == 0 && f2 == 0) {
@@ -59,7 +59,7 @@ void layered_normalized_minsum (float * Lq, uint16_t len, quasi_cyclic_matrix_t 
                 }
             }
             else {
-                float temp [MAX_ROW_WEIGHT] = {0};
+                float temp [MAX_ROW_WEIGHT];
                 float prod = 1;
                 if (f1 == 0) {
                     for (int i = 0; i < H->rowWeight[m]; i++) {

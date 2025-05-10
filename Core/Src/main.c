@@ -206,7 +206,7 @@ int main(void)
   static uint8_t decoded [MAX_CODE_LEN*8] = {0};
 
   for (int i = 40; i < 64; i++) { //Introduce errors here
-      Lq [i] *= -0.1;
+      Lq [i] *= -0.1f;
   }
 
   uint16_t num_iters;
